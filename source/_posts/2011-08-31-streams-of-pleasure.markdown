@@ -16,16 +16,22 @@ Coming from Java if you wanted to use this to find a magic number from a list of
 {% gist 1142511 %}
 
 This doesn't work as you might expect:
+
+```
  scala> FailingNumberFinder.findMagicNumber(1 to 5)
  res0: Option[Int] = None 
+```
+
 Thanks to De La Soul, we all know 3 is a magic number, so what's going on? Scala implements return statements using exceptions and so the catch block swallows the attempt to return early.
 
 We can wrap the attempt to search in a function to avoid this:
 
 {% gist 1142511 %}
 
+```
 scala> UglyNumberFinder.findMagicNumber(1 to 5)
  res1: Option[Int] = Some(3)
+```
 
 but ultimately there are good reasons why using the return keyword in scala is considered bad form.
 

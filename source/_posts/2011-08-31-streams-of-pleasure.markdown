@@ -7,13 +7,13 @@ categories: scala
 ---
 Sometimes you have to work with something that's slow and provides an interface you'd rather not deal with. Hopefully it's a little less dumb and more useful than:
 
-{% gist 1142511 %}
+{% gist 1142511 [SlowErrorProne.scala] %}
 
 but that will serve as an example.
 
 Coming from Java if you wanted to use this to find a magic number from a list of candidates as efficiently as possible, you might be tempted to write something like:
 
-{% gist 1142511 %}
+{% gist 1142511 [FailingNumberFinder.scala]  %}
 
 This doesn't work as you might expect:
 
@@ -26,7 +26,7 @@ Thanks to De La Soul, we all know 3 is a magic number, so what's going on? Scala
 
 We can wrap the attempt to search in a function to avoid this:
 
-{% gist 1142511 %}
+{% gist 1142511  [UglyNumberFinder.scala] %}
 
 ```
 scala> UglyNumberFinder.findMagicNumber(1 to 5)
@@ -37,11 +37,11 @@ but ultimately there are good reasons why using the return keyword in scala is c
 
 If we weren't worried how many times we called the troublesome function, we might instead use something more idiomatic, such as:
 
-{% gist 1142511 %}
+{% gist 1142511 [SimpleMagicNumberFinder.scala] %}
 
 Fortunately there's a simple way to maintain this style without having to accept the performance penalty:
 
-{% gist 1142511 %}
+{% gist 1142511 [FasterMagicNumberFinder.scala] %}
 
 
 Scala's [Stream](http://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html) allows any collection to be wrapped such that their members are lazily evaluated and the standard functions for transforming collections, such as map and flatMap will also be evaluated lazily across the collection, so that we only call the slow function the number of times absolutely necessary.

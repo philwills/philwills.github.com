@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Immutable Servers"
-date: 2013-06-18 09:40
+date: 2013-06-24 08:40
 comments: true
 categories: DevOps
 ---

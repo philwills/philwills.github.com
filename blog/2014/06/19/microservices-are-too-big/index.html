@@ -1,0 +1,168 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Microservices are too (conceptually) big - Functionally literate</title>
+	<meta name="author" content="Phil Wills">
+
+	
+	<meta name="description" content="The idea of microservices has attracted a lot of attention, particularly following James Lewis and Martin Fowler&rsquo;s article. There&rsquo;s lots &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Functionally literate" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Functionally literate</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:philwills.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/philwills" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/philwills" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:philwills.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Microservices Are Too (Conceptually) Big</h2>
+	<div class="entry-content"><p>The idea of microservices has attracted a lot of attention, particularly following <a href="http://martinfowler.com/articles/microservices.html">James Lewis and Martin Fowler&rsquo;s article</a>. There&rsquo;s lots of good advice and sensible thoughts in that piece, but despite some <a href="http://www.brunton-spall.co.uk/post/2014/05/21/what-is-a-microservice-and-why-does-it-matter/">noble attempts</a> to try and pin them down, microservices have suffered from a great deal of <a href="http://martinfowler.com/bliki/SemanticDiffusion.html">semantic diffusion</a> and questions along the lines of <em>&lsquo;Is anyone actually doing microservices properly?&rsquo;</em>.</p>
+
+<p>I believe that much of this is down to two valuable architectural patterns frequently becoming conflated when discussing microservices: independent services and single purpose applications.</p>
+
+<h3>Independent services</h3>
+
+<p>Independent services allow teams to align themselves with some capability in the business and focus on that without having to constantly consider the implementation detail of other services. In order to achieve this, they communicate over stable, well-defined interfaces to other services they interact with.</p>
+
+<h3>Single purpose applications</h3>
+
+<p>Single purpose applications do one thing.</p>
+
+<p>If there&rsquo;s more than one property which defines whether the app is healthy or not, it&rsquo;s probably trying to do more than one thing.</p>
+
+<p>If you think there&rsquo;s more than one metric you&rsquo;d like to scale the application on, it&rsquo;s probably trying to do more than one thing.</p>
+
+<p>The aim of this approach is to give the design of an app focus and provide simple answers to key operability questions. Often such apps are small enough that, if things change, you can rewrite them without having to negotiate budgetary approval to do so.</p>
+
+<h3>Why does the distinction matter?</h3>
+
+<p>While two independent services accessing the same data store is an anti-pattern, this isn&rsquo;t necessarily the case for single purpose applications. As long as they form part of the same service, having different apps responsible for writing to and querying from the same store can be a beneficial design.</p>
+
+<p>There are significant benefits in making apps independently deployable, but routinely deploying apps that form part of the same service together as an optimisation (e.g. to maximise cache consistency) can be sensible. Similarly, it might make sesnse to make sure you deploy such apps in a specific order sometimes to ease a migration. However, if you find yourself regularly deploying more than one service at time, or frequently worrying about the sequence of their releases, they&rsquo;re probably not very independent.</p>
+
+<p>As ever, it&rsquo;s better to focus on the qualities that help us achieve the goals we are striving for; teams able to evolve independently, resiliency, simplicity, rather than striving for some platonic ideal of doing microservices &lsquo;properly&rsquo;.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T22:00:00+01:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/architecture/'>architecture</a>, <a class='category' href='/blog/categories/microservices/'>microservices</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Phil Wills
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: scala | Functionally literate]]></title>
+  <link href="http://philwills.github.com/blog/categories/scala/atom.xml" rel="self"/>
+  <link href="http://philwills.github.com/"/>
+  <updated>2014-06-19T21:07:58+01:00</updated>
+  <id>http://philwills.github.com/</id>
+  <author>
+    <name><![CDATA[Phil Wills]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Streams of Pleasure]]></title>
+    <link href="http://philwills.github.com/blog/2011/08/31/streams-of-pleasure/"/>
+    <updated>2011-08-31T09:19:00+01:00</updated>
+    <id>http://philwills.github.com/blog/2011/08/31/streams-of-pleasure</id>
+    <content type="html"><![CDATA[<p>Sometimes you have to work with something that&rsquo;s slow and provides an interface you&rsquo;d rather not deal with. Hopefully it&rsquo;s a little less dumb and more useful than:</p>
+
+<p><div><script src='https://gist.github.com/1142511.js?file=SlowErrorProne.scala'></script>
+<noscript><pre><code>object SlowErrorProne {
+   val MAGIC_NUMBERS = List(3, 42, 666)
+
+  def search(number: Int) = {
+    Thread.sleep(500)
+    if (MAGIC_NUMBERS contains number) number
+    else throw new Exception
+  }
+}</code></pre></noscript></div>
+</p>
+
+<p>but that will serve as an example.</p>
+
+<p>Coming from Java if you wanted to use this to find a magic number from a list of candidates as efficiently as possible, you might be tempted to write something like:</p>
+
+<p><div><script src='https://gist.github.com/1142511.js?file=FailingNumberFinder.scala'></script>
+<noscript><pre><code>object FailingNumberFinder {
+  def findMagicNumber(numbers: Seq[Int]) : Option[Int] = {
+    for(number &lt;- numbers) {
+       try {
+         return Some(SlowErrorProne.search(number))
+       } catch {
+         case _ =&gt;
+       }
+    }
+    return None
+  }
+}</code></pre></noscript></div>
+</p>
+
+<p>This doesn&rsquo;t work as you might expect:</p>
+
+<p><code>
+ scala&gt; FailingNumberFinder.findMagicNumber(1 to 5)
+ res0: Option[Int] = None
+</code></p>
+
+<p>Thanks to De La Soul, we all know 3 is a magic number, so what&rsquo;s going on? Scala implements return statements using exceptions and so the catch block swallows the attempt to return early.</p>
+
+<p>We can wrap the attempt to search in a function to avoid this:</p>
+
+<p><div><script src='https://gist.github.com/1142511.js?file=UglyNumberFinder.scala'></script>
+<noscript><pre><code>object UglyNumberFinder {
+  def findMagicNumber(numbers: Seq[Int]) : Option[Int] = {
+    def attemptSearch(number: Int) = {
+      try  Some(SlowErrorProne.search(number))
+      catch { case _ =&gt; None }
+    }
+
+    for(number &lt;- numbers) {
+       val result = attemptSearch(number)
+
+       result match {
+         case Some(magic) =&gt; return Some(magic)
+         case _ =&gt;
+       }
+    }
+    return None
+  }
+}</code></pre></noscript></div>
+</p>
+
+<p><code>
+scala&gt; UglyNumberFinder.findMagicNumber(1 to 5)
+ res1: Option[Int] = Some(3)
+</code></p>
+
+<p>but ultimately there are good reasons why using the return keyword in scala is considered bad form.</p>
+
+<p>If we weren&rsquo;t worried how many times we called the troublesome function, we might instead use something more idiomatic, such as:</p>
+
+<p><div><script src='https://gist.github.com/1142511.js?file=SimpleMagicNumberFinder.scala'></script>
+<noscript><pre><code>object SimpleMagicNumberFinder {
+  def findMagicNumber(numbers: Seq[Int]) = {
+    def attemptSearch(number: Int) = {
+      try  Some(SlowErrorProne.search(number))
+      catch { case _ =&gt; None }
+    }
+
+    val magicNumbers = numbers flatMap (
+      attemptSearch(_)
+    )
+    magicNumbers.headOption
+  }
+}</code></pre></noscript></div>
+</p>
+
+<p>Fortunately there&rsquo;s a simple way to maintain this style without having to accept the performance penalty:</p>
+
+<p><div><script src='https://gist.github.com/1142511.js?file=FasterMagicNumberFinder.scala'></script>
+<noscript><pre><code>object FasterMagicNumberFinder {
+  def findMagicNumber(numbers: Seq[Int]) = {
+    def attemptSearch(number: Int) = {
+      try  Some(SlowErrorProne.search(number))
+      catch { case _ =&gt; None }
+    }
+
+    val magicNumbers = Stream(numbers: _*) flatMap (
+      attemptSearch(_)
+    )
+    magicNumbers.headOption
+  }
+}
+</code></pre></noscript></div>
+</p>
+
+<p>Scala&rsquo;s <a href="http://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html">Stream</a> allows any collection to be wrapped such that their members are lazily evaluated and the standard functions for transforming collections, such as map and flatMap will also be evaluated lazily across the collection, so that we only call the slow function the number of times absolutely necessary.</p>
+]]></content>
+  </entry>
+  
+</feed>

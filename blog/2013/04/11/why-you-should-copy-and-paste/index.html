@@ -1,0 +1,167 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Why you should copy and paste - Functionally literate</title>
+	<meta name="author" content="Phil Wills">
+
+	
+	<meta name="description" content="DON&rsquo;T REPEAT YOURSELF! It&rsquo;s a good rule of thumb, but I worry about the number of developers for whom it&rsquo;s a comforting mantra. Why &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Functionally literate" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Functionally literate</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:philwills.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/philwills" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/philwills" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:philwills.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Why You Should Copy and Paste</h2>
+	<div class="entry-content"><h2>DON&rsquo;T REPEAT YOURSELF!</h2>
+
+<p>It&rsquo;s a good rule of thumb, but I worry about the number of developers for whom it&rsquo;s a comforting mantra.</p>
+
+<p>Why is it we should avoid repition in our code? Sustaining the pace of delivery and minimising defects are goals most of us can agree on. Repitition leads to updating the same thing in many places, which can be time consuming and error prone. Therefore we should never repeat ourselves, right? I don&rsquo;t believe it&rsquo;s so simple.</p>
+
+<p>What often seems to be ignored are the costs of avoiding repitition. Large companies appear to have huge benefits from being able to spread shared costs, such as HR, yet some start-ups without these apparent efficiencies, but with the ability to change rapidly can overhaul them. The same advantages can be seen in small independent software systems and we should accept that repitition may be a cost worth paying to achieve it.</p>
+
+<p>Where the instances of the repition occur in close proximity, e.g. within the same function or class, these can be trivial, but as we move out to separate codebases maintained by separate teams, the costs can become prohibitive. Developers who haven&rsquo;t maintained a library that is a dependency of other systems tend to underestimate the overhead of doing so and presume that it will automatically lead to those systems moving seamlessly in step. The reality is that downstream systems will often overlook an updated library and the assumed benefit in everyone receiving a change never materialises.</p>
+
+<p>An even more fundamental problem that can occur is that what at first appears as repitition can upon further development be revealed as a number of subtly, but importantly different use cases.  In these cases attempting to cram both into using the same code can unnecessarily complicate design, impeding delivery speed and increasing the chance of defects.</p>
+
+<p>So what are the critical factors when examining reptition for deciding whether copy and paste is appropriate:</p>
+
+<ul>
+<li>Locality &ndash; sharing code locally has a much lower overhead than sharing between teams</li>
+<li>Frequency &ndash; dealing with code copied and pasted once is a lot more palatable than doing it five times</li>
+<li>Scope &ndash; the overhead of managing the library or other abstraction to avoid repitition is more likely to be repaid when the scope of repitition is larger</li>
+<li>Clarity of abstraction &ndash; collections of utilities without a single defining theme attract many small changes making them more complex for their consumers to keep up with</li>
+<li>Implementation maturity &ndash; fresh code and especially not yet written code can often appear to involve repitition, but upon closer inspection have different needs</li>
+</ul>
+
+
+<p>In many cases there are small amounts of code that are useful to two or three different projects, but aren&rsquo;t on the critical path of those systems. Copying and pasting such code is the responsible thing to do.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-11T09:15:00+01:00" pubdate data-updated="true">Apr 11<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/design/'>design</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Phil Wills
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+</body>
+</html>

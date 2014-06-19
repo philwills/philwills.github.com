@@ -1,94 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE HTML>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Functionally literate</title>
-	<meta name="author" content="Phil Wills">
-
-	
-	<meta name="description" content="The idea of microservices has attracted a lot of attention, particularly following James Lewis and Martin Fowler&rsquo;s article. There&rsquo;s lots &hellip;">
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<link href="/atom.xml" rel="alternate" title="Functionally literate" type="application/atom+xml">
-	<link rel="canonical" href="">
-	<link href="/favicon.png" rel="shortcut icon">
-	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	
-</head>
-
-
-<body>
-	<header id="header" class="inner"><h1><a href="/">Functionally literate</a></h1>
-<nav id="main-nav"><ul class="main">
-	<li><a href="/">Blog</a></li>
-	<li><a href="/blog/archives">Archives</a></li>
-</ul>
-</nav>
-<nav id="mobile-nav">
-	<div class="alignleft menu">
-		<a class="button">Menu</a>
-		<div class="container"><ul class="main">
-	<li><a href="/">Blog</a></li>
-	<li><a href="/blog/archives">Archives</a></li>
-</ul>
-</div>
-	</div>
-	<div class="alignright search">
-		<a class="button"></a>
-		<div class="container">
-			<form action="http://google.com/search" method="get">
-				<input type="text" name="q" results="0">
-				<input type="hidden" name="q" value="site:philwills.github.com">
-			</form>
-		</div>
-	</div>
-</nav>
-<nav id="sub-nav" class="alignright">
-	<div class="social">
-		
-		
-		
-		<a class="twitter" href="http://twitter.com/philwills" title="Twitter">Twitter</a>
-		
-		
-		<a class="github" href="https://github.com/philwills" title="GitHub">GitHub</a>
-		
+  <title><![CDATA[Functionally literate]]></title>
+  <link href="http://philwills.github.com/atom.xml" rel="self"/>
+  <link href="http://philwills.github.com/"/>
+  <updated>2014-06-19T21:07:58+01:00</updated>
+  <id>http://philwills.github.com/</id>
+  <author>
+    <name><![CDATA[Phil Wills]]></name>
     
-		
-		
-		
-		
-		
-		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
-		
-    
-	</div>
-	<form class="search" action="http://google.com/search" method="get">
-		<input class="alignright" type="text" name="q" results="0">
-		<input type="hidden" name="q" value="site:philwills.github.com">
-	</form>
-</nav>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
-</header>
-	
-		
-	
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/06/19/microservices-are-too-big/">
-		
-			Microservices Are Too (Conceptually) Big</a>
-	</h2>
-	<div class="entry-content">
-		<p>The idea of microservices has attracted a lot of attention, particularly following <a href="http://martinfowler.com/articles/microservices.html">James Lewis and Martin Fowler&rsquo;s article</a>. There&rsquo;s lots of good advice and sensible thoughts in that piece, but despite some <a href="http://www.brunton-spall.co.uk/post/2014/05/21/what-is-a-microservice-and-why-does-it-matter/">noble attempts</a> to try and pin them down, microservices have suffered from a great deal of <a href="http://martinfowler.com/bliki/SemanticDiffusion.html">semantic diffusion</a> and questions along the lines of <em>&lsquo;Is anyone actually doing microservices properly?&rsquo;</em>.</p>
+  
+  <entry>
+    <title type="html"><![CDATA[Microservices are too (conceptually) big]]></title>
+    <link href="http://philwills.github.com/blog/2014/06/19/microservices-are-too-big/"/>
+    <updated>2014-06-19T22:00:00+01:00</updated>
+    <id>http://philwills.github.com/blog/2014/06/19/microservices-are-too-big</id>
+    <content type="html"><![CDATA[<p>The idea of microservices has attracted a lot of attention, particularly following <a href="http://martinfowler.com/articles/microservices.html">James Lewis and Martin Fowler&rsquo;s article</a>. There&rsquo;s lots of good advice and sensible thoughts in that piece, but despite some <a href="http://www.brunton-spall.co.uk/post/2014/05/21/what-is-a-microservice-and-why-does-it-matter/">noble attempts</a> to try and pin them down, microservices have suffered from a great deal of <a href="http://martinfowler.com/bliki/SemanticDiffusion.html">semantic diffusion</a> and questions along the lines of <em>&lsquo;Is anyone actually doing microservices properly?&rsquo;</em>.</p>
 
 <p>I believe that much of this is down to two valuable architectural patterns frequently becoming conflated when discussing microservices: independent services and single purpose applications.</p>
 
@@ -113,47 +43,15 @@
 <p>There are significant benefits in making apps independently deployable, but routinely deploying apps that form part of the same service together as an optimisation (e.g. to maximise cache consistency) can be sensible. Similarly, it might make sesnse to make sure you deploy such apps in a specific order sometimes to ease a migration. However, if you find yourself regularly deploying more than one service at time, or frequently worrying about the sequence of their releases, they&rsquo;re probably not very independent.</p>
 
 <p>As ever, it&rsquo;s better to focus on the qualities that help us achieve the goals we are striving for; teams able to evolve independently, resiliency, simplicity, rather than striving for some platonic ideal of doing microservices &lsquo;properly&rsquo;.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2014-06-19T22:00:00+01:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/architecture/'>architecture</a>, <a class='category' href='/blog/categories/microservices/'>microservices</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/06/24/immutable-servers/">
-		
-			Immutable Servers</a>
-	</h2>
-	<div class="entry-content">
-		<p>Functional programming has become increasingly popular over the past few years. One of the key ideas of functional programming is the preference for immutability. Another important devlopment has been the rise of DevOps and the idea of infrastrucuture as code. If we value immutability in our code and we treat our infrastructure as code, can we gain benefit by having immutable servers?</p>
+  <entry>
+    <title type="html"><![CDATA[Immutable Servers]]></title>
+    <link href="http://philwills.github.com/blog/2013/06/24/immutable-servers/"/>
+    <updated>2013-06-24T08:40:00+01:00</updated>
+    <id>http://philwills.github.com/blog/2013/06/24/immutable-servers</id>
+    <content type="html"><![CDATA[<p>Functional programming has become increasingly popular over the past few years. One of the key ideas of functional programming is the preference for immutability. Another important devlopment has been the rise of DevOps and the idea of infrastrucuture as code. If we value immutability in our code and we treat our infrastructure as code, can we gain benefit by having immutable servers?</p>
 
 <p>What do I mean by an immutable server? Clearly, when we peer into the details, much of any server is mutable, but in terms of our interaction with them as developers and maintainers of the system; installing packages, updating configuration, deploying new versions of an application, we can keep to the simple rule that once the server has initialised we don&rsquo;t attempt to make any changes. This can mean creating machine images with everything ready to start, but may also include some initialisation scripts, perhaps using a tool like Chef solo, or the direct application of Puppet, but definitely doesn&rsquo;t include allowing a central Puppet or Chef server to effect changes.</p>
 
@@ -162,47 +60,15 @@
 <p>Why might it be desirable to have immutable servers? The key reason for favouring immutability, whether in software or the servers they run on is to minimise the possible states of the system. This makes it much easier to reason about what state the system is currently in. There&rsquo;s no need to worry about whether or not a particular change was applied to the servers. We know what state they started in, so that&rsquo;s the state they&rsquo;re in now.</p>
 
 <p>Of course, no choice is without it&rsquo;s caveats: virtualisation and fast boot times are necessary to make this approach practical, it&rsquo;s much easier to apply this approach to stateless applications than datastores, but having used this approach for the past nine months, I&rsquo;m convinced it&rsquo;s a valuable way of working.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2013-06-24T08:40:00+01:00" pubdate data-updated="true">Jun 24<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/devops/'>DevOps</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/04/11/why-you-should-copy-and-paste/">
-		
-			Why You Should Copy and Paste</a>
-	</h2>
-	<div class="entry-content">
-		<h2>DON&rsquo;T REPEAT YOURSELF!</h2>
+  <entry>
+    <title type="html"><![CDATA[Why you should copy and paste]]></title>
+    <link href="http://philwills.github.com/blog/2013/04/11/why-you-should-copy-and-paste/"/>
+    <updated>2013-04-11T09:15:00+01:00</updated>
+    <id>http://philwills.github.com/blog/2013/04/11/why-you-should-copy-and-paste</id>
+    <content type="html"><![CDATA[<h2>DON&rsquo;T REPEAT YOURSELF!</h2>
 
 <p>It&rsquo;s a good rule of thumb, but I worry about the number of developers for whom it&rsquo;s a comforting mantra.</p>
 
@@ -226,47 +92,15 @@
 
 
 <p>In many cases there are small amounts of code that are useful to two or three different projects, but aren&rsquo;t on the critical path of those systems. Copying and pasting such code is the responsible thing to do.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2013-04-11T09:15:00+01:00" pubdate data-updated="true">Apr 11<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/design/'>design</a>
-
-
-</div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2011/08/31/streams-of-pleasure/">
-		
-			Streams of Pleasure</a>
-	</h2>
-	<div class="entry-content">
-		<p>Sometimes you have to work with something that&rsquo;s slow and provides an interface you&rsquo;d rather not deal with. Hopefully it&rsquo;s a little less dumb and more useful than:</p>
+  <entry>
+    <title type="html"><![CDATA[Streams of Pleasure]]></title>
+    <link href="http://philwills.github.com/blog/2011/08/31/streams-of-pleasure/"/>
+    <updated>2011-08-31T09:19:00+01:00</updated>
+    <id>http://philwills.github.com/blog/2011/08/31/streams-of-pleasure</id>
+    <content type="html"><![CDATA[<p>Sometimes you have to work with something that&rsquo;s slow and provides an interface you&rsquo;d rather not deal with. Hopefully it&rsquo;s a little less dumb and more useful than:</p>
 
 <div><script src='https://gist.github.com/1142511.js?file=SlowErrorProne.scala'></script>
 <noscript><pre><code>object SlowErrorProne {
@@ -380,59 +214,7 @@
 
 
 <p>Scala&rsquo;s <a href="http://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html">Stream</a> allows any collection to be wrapped such that their members are lazily evaluated and the standard functions for transforming collections, such as map and flatMap will also be evaluated lazily across the collection, so that we only call the slow function the number of times absolutely necessary.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
+]]></content>
+  </entry>
   
-
-
-<time datetime="2011-08-31T09:19:00+01:00" pubdate data-updated="true">Aug 31<span>st</span>, 2011</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/scala/'>scala</a>
-
-
-</div>
-	
-</div>
-</article>
-
-<nav id="pagenavi">
-    
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
-	<footer id="footer" class="inner">Copyright &copy; 2014
-
-    Phil Wills
-
-</footer>
-	<script src="/javascripts/slash.js"></script>
-<script src="/javascripts/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-	$('.fancybox').fancybox();
-})(jQuery);
-</script> <!-- Delete or comment this line to disable Fancybox -->
-
-
-
-
-
-
-</body>
-</html>
+</feed>

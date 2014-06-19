@@ -1,0 +1,257 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Streams of Pleasure - Functionally literate</title>
+	<meta name="author" content="Phil Wills">
+
+	
+	<meta name="description" content="Sometimes you have to work with something that&rsquo;s slow and provides an interface you&rsquo;d rather not deal with. Hopefully it&rsquo;s a little &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Functionally literate" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Functionally literate</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:philwills.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		<a class="twitter" href="http://twitter.com/philwills" title="Twitter">Twitter</a>
+		
+		
+		<a class="github" href="https://github.com/philwills" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:philwills.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Streams of Pleasure</h2>
+	<div class="entry-content"><p>Sometimes you have to work with something that&rsquo;s slow and provides an interface you&rsquo;d rather not deal with. Hopefully it&rsquo;s a little less dumb and more useful than:</p>
+
+<div><script src='https://gist.github.com/1142511.js?file=SlowErrorProne.scala'></script>
+<noscript><pre><code>object SlowErrorProne {
+   val MAGIC_NUMBERS = List(3, 42, 666)
+
+  def search(number: Int) = {
+    Thread.sleep(500)
+    if (MAGIC_NUMBERS contains number) number
+    else throw new Exception
+  }
+}</code></pre></noscript></div>
+
+
+<p>but that will serve as an example.</p>
+
+<p>Coming from Java if you wanted to use this to find a magic number from a list of candidates as efficiently as possible, you might be tempted to write something like:</p>
+
+<div><script src='https://gist.github.com/1142511.js?file=FailingNumberFinder.scala'></script>
+<noscript><pre><code>object FailingNumberFinder {
+  def findMagicNumber(numbers: Seq[Int]) : Option[Int] = {
+    for(number &lt;- numbers) {
+       try {
+         return Some(SlowErrorProne.search(number))
+       } catch {
+         case _ =&gt;
+       }
+    }
+    return None
+  }
+}</code></pre></noscript></div>
+
+
+<p>This doesn&rsquo;t work as you might expect:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> scala&gt; FailingNumberFinder.findMagicNumber(1 to 5)
+</span><span class='line'> res0: Option[Int] = None </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thanks to De La Soul, we all know 3 is a magic number, so what&rsquo;s going on? Scala implements return statements using exceptions and so the catch block swallows the attempt to return early.</p>
+
+<p>We can wrap the attempt to search in a function to avoid this:</p>
+
+<div><script src='https://gist.github.com/1142511.js?file=UglyNumberFinder.scala'></script>
+<noscript><pre><code>object UglyNumberFinder {
+  def findMagicNumber(numbers: Seq[Int]) : Option[Int] = {
+    def attemptSearch(number: Int) = {
+      try  Some(SlowErrorProne.search(number))
+      catch { case _ =&gt; None }
+    }
+
+    for(number &lt;- numbers) {
+       val result = attemptSearch(number)
+
+       result match {
+         case Some(magic) =&gt; return Some(magic)
+         case _ =&gt;
+       }
+    }
+    return None
+  }
+}</code></pre></noscript></div>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>scala&gt; UglyNumberFinder.findMagicNumber(1 to 5)
+</span><span class='line'> res1: Option[Int] = Some(3)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>but ultimately there are good reasons why using the return keyword in scala is considered bad form.</p>
+
+<p>If we weren&rsquo;t worried how many times we called the troublesome function, we might instead use something more idiomatic, such as:</p>
+
+<div><script src='https://gist.github.com/1142511.js?file=SimpleMagicNumberFinder.scala'></script>
+<noscript><pre><code>object SimpleMagicNumberFinder {
+  def findMagicNumber(numbers: Seq[Int]) = {
+    def attemptSearch(number: Int) = {
+      try  Some(SlowErrorProne.search(number))
+      catch { case _ =&gt; None }
+    }
+
+    val magicNumbers = numbers flatMap (
+      attemptSearch(_)
+    )
+    magicNumbers.headOption
+  }
+}</code></pre></noscript></div>
+
+
+<p>Fortunately there&rsquo;s a simple way to maintain this style without having to accept the performance penalty:</p>
+
+<div><script src='https://gist.github.com/1142511.js?file=FasterMagicNumberFinder.scala'></script>
+<noscript><pre><code>object FasterMagicNumberFinder {
+  def findMagicNumber(numbers: Seq[Int]) = {
+    def attemptSearch(number: Int) = {
+      try  Some(SlowErrorProne.search(number))
+      catch { case _ =&gt; None }
+    }
+
+    val magicNumbers = Stream(numbers: _*) flatMap (
+      attemptSearch(_)
+    )
+    magicNumbers.headOption
+  }
+}
+</code></pre></noscript></div>
+
+
+<p>Scala&rsquo;s <a href="http://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html">Stream</a> allows any collection to be wrapped such that their members are lazily evaluated and the standard functions for transforming collections, such as map and flatMap will also be evaluated lazily across the collection, so that we only call the slow function the number of times absolutely necessary.</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-31T09:19:00+01:00" pubdate data-updated="true">Aug 31<span>st</span>, 2011</time></div>
+	<div class="tags">
+
+
+	<a class='category' href='/blog/categories/scala/'>scala</a>
+
+
+</div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Phil Wills
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+</body>
+</html>

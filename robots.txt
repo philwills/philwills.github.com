@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://philwills.github.com/sitemap.xml 

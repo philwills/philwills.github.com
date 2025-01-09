@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="pretty-atom-feed.xsl" type="text/xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title>Functionally literate</title>
+  <subtitle></subtitle>
+  <link href="https://blog.phil-wills.com/eleventy-base-blog/feed/feed.xml" rel="self" />
+  <link href="https://blog.phil-wills.com/eleventy-base-blog/" />
+  <updated>2014-06-19T00:00:00Z</updated>
+  <id>https://blog.phil-wills.com/eleventy-base-blog/</id>
+  <author>
+    <name>Phil Wills</name>
+  </author>
+  <entry>
+    <title>Microservices are too (conceptually) big</title>
+    <link href="https://blog.phil-wills.com/eleventy-base-blog/blog/2014/06/19/microservices-are-too-conceptually-big/" />
+    <updated>2014-06-19T00:00:00Z</updated>
+    <id>https://blog.phil-wills.com/eleventy-base-blog/blog/2014/06/19/microservices-are-too-conceptually-big/</id>
+    <content type="html">&lt;p&gt;The idea of microservices has attracted a lot of attention, particularly following &lt;a href=&quot;http://martinfowler.com/articles/microservices.html&quot;&gt;James Lewis and Martin Fowler&#39;s article&lt;/a&gt;. There&#39;s lots of good advice and sensible thoughts in that piece, but despite some &lt;a href=&quot;http://www.brunton-spall.co.uk/post/2014/05/21/what-is-a-microservice-and-why-does-it-matter/&quot;&gt;noble attempts&lt;/a&gt; to try and pin them down, microservices have suffered from a great deal of &lt;a href=&quot;http://martinfowler.com/bliki/SemanticDiffusion.html&quot;&gt;semantic diffusion&lt;/a&gt; and questions along the lines of &lt;em&gt;&#39;Is anyone actually doing microservices properly?&#39;&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;I believe that much of this is down to two valuable architectural patterns frequently becoming conflated when discussing microservices: independent services and single purpose applications.&lt;/p&gt;
+&lt;h3 id=&quot;independent-services&quot;&gt;Independent services&lt;/h3&gt;
+&lt;p&gt;Independent services allow teams to align themselves with some capability in the business and focus on that without having to constantly consider the implementation detail of other services. In order to achieve this, they communicate over stable, well-defined interfaces to other services they interact with.&lt;/p&gt;
+&lt;h3 id=&quot;single-purpose-applications&quot;&gt;Single purpose applications&lt;/h3&gt;
+&lt;p&gt;Single purpose applications do one thing.&lt;/p&gt;
+&lt;p&gt;If there&#39;s more than one property which defines whether the app is healthy or not, it&#39;s probably trying to do more than one thing.&lt;/p&gt;
+&lt;p&gt;If you think there&#39;s more than one metric you&#39;d like to scale the application on, it&#39;s probably trying to do more than one thing.&lt;/p&gt;
+&lt;p&gt;The aim of this approach is to give the design of an app focus and provide simple answers to key operability questions. Often such apps are small enough that, if things change, you can rewrite them without having to negotiate budgetary approval to do so.&lt;/p&gt;
+&lt;h3 id=&quot;why-does-the-distinction-matter&quot;&gt;Why does the distinction matter?&lt;/h3&gt;
+&lt;p&gt;While two independent services accessing the same data store is an anti-pattern, this isn&#39;t necessarily the case for single purpose applications. As long as they form part of the same service, having different apps responsible for writing to and querying from the same store can be a beneficial design.&lt;/p&gt;
+&lt;p&gt;There are significant benefits in making apps independently deployable, but routinely deploying apps that form part of the same service together as an optimisation (e.g. to maximise cache consistency) can be sensible. Similarly, it might make sesnse to make sure you deploy such apps in a specific order sometimes to ease a migration. However, if you find yourself regularly deploying more than one service at time, or frequently worrying about the sequence of their releases, they&#39;re probably not very independent.&lt;/p&gt;
+&lt;p&gt;As ever, it&#39;s better to focus on the qualities that help us achieve the goals we are striving for; teams able to evolve independently, resiliency, simplicity, rather than striving for some platonic ideal of doing microservices &#39;properly&#39;.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Immutable Servers</title>
+    <link href="https://blog.phil-wills.com/eleventy-base-blog/blog/2013/06/24/immutable-servers/" />
+    <updated>2013-06-24T00:00:00Z</updated>
+    <id>https://blog.phil-wills.com/eleventy-base-blog/blog/2013/06/24/immutable-servers/</id>
+    <content type="html">&lt;p&gt;Functional programming has become increasingly popular over the past few years. One of the key ideas of functional programming is the preference for immutability. Another important devlopment has been the rise of DevOps and the idea of infrastrucuture as code. If we value immutability in our code and we treat our infrastructure as code, can we gain benefit by having immutable servers?&lt;/p&gt;
+&lt;p&gt;What do I mean by an immutable server? Clearly, when we peer into the details, much of any server is mutable, but in terms of our interaction with them as developers and maintainers of the system; installing packages, updating configuration, deploying new versions of an application, we can keep to the simple rule that once the server has initialised we don&#39;t attempt to make any changes. This can mean creating machine images with everything ready to start, but may also include some initialisation scripts, perhaps using a tool like Chef solo, or the direct application of Puppet, but definitely doesn&#39;t include allowing a central Puppet or Chef server to effect changes.&lt;/p&gt;
+&lt;p&gt;It will, naturally, be necessary to make changes to the service running on the server, but it&#39;s important to make the distinction that it&#39;s the service that we&#39;re ultimately interested in updating. The server is an implementation detail. Using deployment methods based on bringing up parallel, or growing and shrinking auto-scaling groups fit perfectly with this idiom.&lt;/p&gt;
+&lt;p&gt;Why might it be desirable to have immutable servers? The key reason for favouring immutability, whether in software or the servers they run on is to minimise the possible states of the system. This makes it much easier to reason about what state the system is currently in. There&#39;s no need to worry about whether or not a particular change was applied to the servers. We know what state they started in, so that&#39;s the state they&#39;re in now.&lt;/p&gt;
+&lt;p&gt;Of course, no choice is without it&#39;s caveats: virtualisation and fast boot times are necessary to make this approach practical, it&#39;s much easier to apply this approach to stateless applications than datastores, but having used this approach for the past nine months, I&#39;m convinced it&#39;s a valuable way of working.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Why you should copy and paste</title>
+    <link href="https://blog.phil-wills.com/eleventy-base-blog/blog/2013/04/11/why-you-should-copy-and-paste/" />
+    <updated>2013-04-11T00:00:00Z</updated>
+    <id>https://blog.phil-wills.com/eleventy-base-blog/blog/2013/04/11/why-you-should-copy-and-paste/</id>
+    <content type="html">&lt;h2 id=&quot;dont-repeat-yourself&quot;&gt;DON&#39;T REPEAT YOURSELF!&lt;/h2&gt;
+&lt;p&gt;It&#39;s a good rule of thumb, but I worry about the number of developers for whom it&#39;s a comforting mantra.&lt;/p&gt;
+&lt;p&gt;Why is it we should avoid repition in our code? Sustaining the pace of delivery and minimising defects are goals most of us can agree on. Repitition leads to updating the same thing in many places, which can be time consuming and error prone. Therefore we should never repeat ourselves, right? I don&#39;t believe it&#39;s so simple.&lt;/p&gt;
+&lt;p&gt;What often seems to be ignored are the costs of avoiding repitition. Large companies appear to have huge benefits from being able to spread shared costs, such as HR, yet some start-ups without these apparent efficiencies, but with the ability to change rapidly can overhaul them. The same advantages can be seen in small independent software systems and we should accept that repitition may be a cost worth paying to achieve it.&lt;/p&gt;
+&lt;p&gt;Where the instances of the repition occur in close proximity, e.g. within the same function or class, these can be trivial, but as we move out to separate codebases maintained by separate teams, the costs can become prohibitive. Developers who haven&#39;t maintained a library that is a dependency of other systems tend to underestimate the overhead of doing so and presume that it will automatically lead to those systems moving seamlessly in step. The reality is that downstream systems will often overlook an updated library and the assumed benefit in everyone receiving a change never materialises.&lt;/p&gt;
+&lt;p&gt;An even more fundamental problem that can occur is that what at first appears as repitition can upon further development be revealed as a number of subtly, but importantly different use cases.  In these cases attempting to cram both into using the same code can unnecessarily complicate design, impeding delivery speed and increasing the chance of defects.&lt;/p&gt;
+&lt;p&gt;So what are the critical factors when examining reptition for deciding whether copy and paste is appropriate:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Locality - sharing code locally has a much lower overhead than sharing between teams&lt;/li&gt;
+&lt;li&gt;Frequency - dealing with code copied and pasted once is a lot more palatable than doing it five times&lt;/li&gt;
+&lt;li&gt;Scope - the overhead of managing the library or other abstraction to avoid repitition is more likely to be repaid when the scope of repitition is larger&lt;/li&gt;
+&lt;li&gt;Clarity of abstraction - collections of utilities without a single defining theme attract many small changes making them more complex for their consumers to keep up with&lt;/li&gt;
+&lt;li&gt;Implementation maturity - fresh code and especially not yet written code can often appear to involve repitition, but upon closer inspection have different needs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In many cases there are small amounts of code that are useful to two or three different projects, but aren&#39;t on the critical path of those systems. Copying and pasting such code is the responsible thing to do.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Streams of Pleasure</title>
+    <link href="https://blog.phil-wills.com/eleventy-base-blog/blog/2011/08/31/streams-of-pleasure/" />
+    <updated>2011-08-31T00:00:00Z</updated>
+    <id>https://blog.phil-wills.com/eleventy-base-blog/blog/2011/08/31/streams-of-pleasure/</id>
+    <content type="html">&lt;p&gt;Sometimes you have to work with something that&#39;s slow and provides an interface you&#39;d rather not deal with. Hopefully it&#39;s a little less dumb and more useful than:&lt;/p&gt;
+&lt;pre class=&quot;language-scala&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-scala&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;object&lt;/span&gt; SlowErrorProne &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; MAGIC_NUMBERS &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; List&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;666&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; search&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Thread&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;sleep&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;MAGIC_NUMBERS contains number&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; number
+    &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; Exception
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;but that will serve as an example.&lt;/p&gt;
+&lt;p&gt;Coming from Java if you wanted to use this to find a magic number from a list of candidates as efficiently as possible, you might be tempted to write something like:&lt;/p&gt;
+&lt;pre class=&quot;language-scala&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-scala&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;object&lt;/span&gt; FailingNumberFinder &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; findMagicNumber&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;numbers&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Seq&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Option&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number &lt;span class=&quot;token keyword&quot;&gt;&amp;lt;-&lt;/span&gt; numbers&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+       &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; Some&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;SlowErrorProne&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;search&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+       &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; _ &lt;span class=&quot;token keyword&quot;&gt;=&gt;&lt;/span&gt;
+       &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; None
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This doesn&#39;t work as you might expect:&lt;/p&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt; scala&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; FailingNumberFinder.findMagicNumber&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; to &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+ res0: Option&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Int&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; None &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Thanks to De La Soul, we all know 3 is a magic number, so what&#39;s going on? Scala implements return statements using exceptions and so the catch block swallows the attempt to return early.&lt;/p&gt;
+&lt;p&gt;We can wrap the attempt to search in a function to avoid this:&lt;/p&gt;
+&lt;pre class=&quot;language-scala&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-scala&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;object&lt;/span&gt; UglyNumberFinder &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; findMagicNumber&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;numbers&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Seq&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Option&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; attemptSearch&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt;  Some&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;SlowErrorProne&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;search&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; _ &lt;span class=&quot;token keyword&quot;&gt;=&gt;&lt;/span&gt; None &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number &lt;span class=&quot;token keyword&quot;&gt;&amp;lt;-&lt;/span&gt; numbers&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+       &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; attemptSearch&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+       result &lt;span class=&quot;token keyword&quot;&gt;match&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; Some&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;magic&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; Some&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;magic&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+         &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; _ &lt;span class=&quot;token keyword&quot;&gt;=&gt;&lt;/span&gt;
+       &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; None
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;scala&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; UglyNumberFinder.findMagicNumber&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; to &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+ res1: Option&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Int&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Some&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;but ultimately there are good reasons why using the return keyword in scala is considered bad form.&lt;/p&gt;
+&lt;p&gt;If we weren&#39;t worried how many times we called the troublesome function, we might instead use something more idiomatic, such as:&lt;/p&gt;
+&lt;pre class=&quot;language-scala&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-scala&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;object&lt;/span&gt; SimpleMagicNumberFinder &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; findMagicNumber&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;numbers&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Seq&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; attemptSearch&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt;  Some&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;SlowErrorProne&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;search&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; _ &lt;span class=&quot;token keyword&quot;&gt;=&gt;&lt;/span&gt; None &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; magicNumbers &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; numbers flatMap &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+      attemptSearch&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;_&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    magicNumbers&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;headOption
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Fortunately there&#39;s a simple way to maintain this style without having to accept the performance penalty:&lt;/p&gt;
+&lt;pre class=&quot;language-scala&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-scala&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;object&lt;/span&gt; FasterMagicNumberFinder &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; findMagicNumber&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;numbers&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Seq&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; attemptSearch&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt;  Some&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;SlowErrorProne&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;search&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;number&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; _ &lt;span class=&quot;token keyword&quot;&gt;=&gt;&lt;/span&gt; None &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; magicNumbers &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Stream&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;numbers&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; _&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; flatMap &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+      attemptSearch&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;_&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    magicNumbers&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;headOption
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Scala&#39;s &lt;a href=&quot;http://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html&quot;&gt;Stream&lt;/a&gt; allows any collection to be wrapped such that their members are lazily evaluated and the standard functions for transforming collections, such as map and flatMap will also be evaluated lazily across the collection, so that we only call the slow function the number of times absolutely necessary.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

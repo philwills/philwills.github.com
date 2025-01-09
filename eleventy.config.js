@@ -3,6 +3,7 @@ import { feedPlugin } from "@11ty/eleventy-plugin-rss";
 import pluginSyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import pluginNavigation from "@11ty/eleventy-navigation";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+import { DateTime } from 'luxon';
 
 import pluginFilters from "./_config/filters.js";
 
@@ -63,11 +64,11 @@ export default async function(eleventyConfig) {
 		},
 		metadata: {
 			language: "en",
-			title: "Blog Title",
-			subtitle: "This is a longer description about your blog.",
-			base: "https://example.com/",
+			title: "Functionally literate",
+			subtitle: "",
+			base: "https://blog.phil-wills.com/",
 			author: {
-				name: "Your Name"
+				name: "Phil Wills"
 			}
 		}
 	});
@@ -100,6 +101,10 @@ export default async function(eleventyConfig) {
 
 	eleventyConfig.addShortcode("currentBuildDate", () => {
 		return (new Date()).toISOString();
+	});
+
+	eleventyConfig.addFilter("urlifyDate", (date) => {
+		return DateTime.fromJSDate(date).toFormat('yyyy/MM/dd')
 	});
 
 	// Features to make your build faster (when you need them)

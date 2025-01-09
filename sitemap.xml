@@ -2,47 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/blog/2011/08/31/streams-of-pleasure/</loc>
+		<loc>https://blog.phil-wills.com/blog/2011/08/31/streams-of-pleasure/</loc>
 		<lastmod>2011-08-31</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/blog/2013/04/11/why-you-should-copy-and-paste/</loc>
+		<loc>https://blog.phil-wills.com/blog/2013/04/11/why-you-should-copy-and-paste/</loc>
 		<lastmod>2013-04-11</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/blog/2013/06/24/immutable-servers/</loc>
+		<loc>https://blog.phil-wills.com/blog/2013/06/24/immutable-servers/</loc>
 		<lastmod>2013-06-24</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/blog/2014/06/19/microservices-are-too-conceptually-big/</loc>
+		<loc>https://blog.phil-wills.com/blog/2014/06/19/microservices-are-too-conceptually-big/</loc>
 		<lastmod>2014-06-19</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/about/</loc>
+		<loc>https://blog.phil-wills.com/about/</loc>
 		<lastmod>2025-01-09</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/blog/</loc>
+		<loc>https://blog.phil-wills.com/blog/</loc>
 		<lastmod>2025-01-09</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/</loc>
+		<loc>https://blog.phil-wills.com/</loc>
 		<lastmod>2025-01-09</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/tags/</loc>
+		<loc>https://blog.phil-wills.com/tags/</loc>
 		<lastmod>2025-01-09</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://blog.phil-wills.com/eleventy-base-blog/feed/feed.xml</loc>
+		<loc>https://blog.phil-wills.com/feed/feed.xml</loc>
 		<lastmod>2025-01-09</lastmod>
 	</url>
 </urlset>

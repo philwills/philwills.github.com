@@ -3,18 +3,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
   <title>Functionally literate</title>
   <subtitle></subtitle>
-  <link href="https://blog.phil-wills.com/eleventy-base-blog/feed/feed.xml" rel="self" />
-  <link href="https://blog.phil-wills.com/eleventy-base-blog/" />
+  <link href="https://blog.phil-wills.com/feed/feed.xml" rel="self" />
+  <link href="https://blog.phil-wills.com/" />
   <updated>2014-06-19T00:00:00Z</updated>
-  <id>https://blog.phil-wills.com/eleventy-base-blog/</id>
+  <id>https://blog.phil-wills.com/</id>
   <author>
     <name>Phil Wills</name>
   </author>
   <entry>
     <title>Microservices are too (conceptually) big</title>
-    <link href="https://blog.phil-wills.com/eleventy-base-blog/blog/2014/06/19/microservices-are-too-conceptually-big/" />
+    <link href="https://blog.phil-wills.com/blog/2014/06/19/microservices-are-too-conceptually-big/" />
     <updated>2014-06-19T00:00:00Z</updated>
-    <id>https://blog.phil-wills.com/eleventy-base-blog/blog/2014/06/19/microservices-are-too-conceptually-big/</id>
+    <id>https://blog.phil-wills.com/blog/2014/06/19/microservices-are-too-conceptually-big/</id>
     <content type="html">&lt;p&gt;The idea of microservices has attracted a lot of attention, particularly following &lt;a href=&quot;http://martinfowler.com/articles/microservices.html&quot;&gt;James Lewis and Martin Fowler&#39;s article&lt;/a&gt;. There&#39;s lots of good advice and sensible thoughts in that piece, but despite some &lt;a href=&quot;http://www.brunton-spall.co.uk/post/2014/05/21/what-is-a-microservice-and-why-does-it-matter/&quot;&gt;noble attempts&lt;/a&gt; to try and pin them down, microservices have suffered from a great deal of &lt;a href=&quot;http://martinfowler.com/bliki/SemanticDiffusion.html&quot;&gt;semantic diffusion&lt;/a&gt; and questions along the lines of &lt;em&gt;&#39;Is anyone actually doing microservices properly?&#39;&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;I believe that much of this is down to two valuable architectural patterns frequently becoming conflated when discussing microservices: independent services and single purpose applications.&lt;/p&gt;
 &lt;h3 id=&quot;independent-services&quot;&gt;Independent services&lt;/h3&gt;
@@ -32,9 +32,9 @@
   </entry>
   <entry>
     <title>Immutable Servers</title>
-    <link href="https://blog.phil-wills.com/eleventy-base-blog/blog/2013/06/24/immutable-servers/" />
+    <link href="https://blog.phil-wills.com/blog/2013/06/24/immutable-servers/" />
     <updated>2013-06-24T00:00:00Z</updated>
-    <id>https://blog.phil-wills.com/eleventy-base-blog/blog/2013/06/24/immutable-servers/</id>
+    <id>https://blog.phil-wills.com/blog/2013/06/24/immutable-servers/</id>
     <content type="html">&lt;p&gt;Functional programming has become increasingly popular over the past few years. One of the key ideas of functional programming is the preference for immutability. Another important devlopment has been the rise of DevOps and the idea of infrastrucuture as code. If we value immutability in our code and we treat our infrastructure as code, can we gain benefit by having immutable servers?&lt;/p&gt;
 &lt;p&gt;What do I mean by an immutable server? Clearly, when we peer into the details, much of any server is mutable, but in terms of our interaction with them as developers and maintainers of the system; installing packages, updating configuration, deploying new versions of an application, we can keep to the simple rule that once the server has initialised we don&#39;t attempt to make any changes. This can mean creating machine images with everything ready to start, but may also include some initialisation scripts, perhaps using a tool like Chef solo, or the direct application of Puppet, but definitely doesn&#39;t include allowing a central Puppet or Chef server to effect changes.&lt;/p&gt;
 &lt;p&gt;It will, naturally, be necessary to make changes to the service running on the server, but it&#39;s important to make the distinction that it&#39;s the service that we&#39;re ultimately interested in updating. The server is an implementation detail. Using deployment methods based on bringing up parallel, or growing and shrinking auto-scaling groups fit perfectly with this idiom.&lt;/p&gt;
@@ -44,9 +44,9 @@
   </entry>
   <entry>
     <title>Why you should copy and paste</title>
-    <link href="https://blog.phil-wills.com/eleventy-base-blog/blog/2013/04/11/why-you-should-copy-and-paste/" />
+    <link href="https://blog.phil-wills.com/blog/2013/04/11/why-you-should-copy-and-paste/" />
     <updated>2013-04-11T00:00:00Z</updated>
-    <id>https://blog.phil-wills.com/eleventy-base-blog/blog/2013/04/11/why-you-should-copy-and-paste/</id>
+    <id>https://blog.phil-wills.com/blog/2013/04/11/why-you-should-copy-and-paste/</id>
     <content type="html">&lt;h2 id=&quot;dont-repeat-yourself&quot;&gt;DON&#39;T REPEAT YOURSELF!&lt;/h2&gt;
 &lt;p&gt;It&#39;s a good rule of thumb, but I worry about the number of developers for whom it&#39;s a comforting mantra.&lt;/p&gt;
 &lt;p&gt;Why is it we should avoid repition in our code? Sustaining the pace of delivery and minimising defects are goals most of us can agree on. Repitition leads to updating the same thing in many places, which can be time consuming and error prone. Therefore we should never repeat ourselves, right? I don&#39;t believe it&#39;s so simple.&lt;/p&gt;
@@ -66,9 +66,9 @@
   </entry>
   <entry>
     <title>Streams of Pleasure</title>
-    <link href="https://blog.phil-wills.com/eleventy-base-blog/blog/2011/08/31/streams-of-pleasure/" />
+    <link href="https://blog.phil-wills.com/blog/2011/08/31/streams-of-pleasure/" />
     <updated>2011-08-31T00:00:00Z</updated>
-    <id>https://blog.phil-wills.com/eleventy-base-blog/blog/2011/08/31/streams-of-pleasure/</id>
+    <id>https://blog.phil-wills.com/blog/2011/08/31/streams-of-pleasure/</id>
     <content type="html">&lt;p&gt;Sometimes you have to work with something that&#39;s slow and provides an interface you&#39;d rather not deal with. Hopefully it&#39;s a little less dumb and more useful than:&lt;/p&gt;
 &lt;pre class=&quot;language-scala&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-scala&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;object&lt;/span&gt; SlowErrorProne &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
    &lt;span class=&quot;token keyword&quot;&gt;val&lt;/span&gt; MAGIC_NUMBERS &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; List&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;666&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;

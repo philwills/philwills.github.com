@@ -4,9 +4,9 @@
 let globalInstanceIndex = 0;
 
 class HeadingAnchors extends HTMLElement {
-	static register(tagName) {
-		if ("customElements" in window) {
-			customElements.define(tagName || "heading-anchors", HeadingAnchors);
+	static register(tagName = "heading-anchors", registry = window.customElements) {
+		if(registry && !registry.get(tagName)) {
+			registry.define(tagName, this);
 		}
 	}
 
@@ -47,6 +47,7 @@ class HeadingAnchors extends HTMLElement {
 }
 .${HeadingAnchors.classes.anchor},
 .${HeadingAnchors.classes.placeholder} {
+	display: inline-block;
 	padding: 0 .25em;
 
 	/* Disable selection of visually hidden label */
@@ -103,7 +104,7 @@ class HeadingAnchors extends HTMLElement {
 					anchor.style.positionAnchor = anchorName;
 				}
 
-				heading.appendChild(placeholder)
+				heading.appendChild(placeholder);
 				heading.after(anchor);
 			}
 		});
@@ -151,8 +152,12 @@ class HeadingAnchors extends HTMLElement {
 		if(placeholder) {
 			let style = getComputedStyle(placeholder);
 			let props = ["font-weight", "font-size", "line-height", "font-family"];
-			let font = props.map(name => style.getPropertyValue(name));
-			anchor.style.setProperty("font", `${font[0]} ${font[1]}/${font[2]} ${font[3]}`);
+			let [weight, size, lh, family] = props.map(name => style.getPropertyValue(name));
+			anchor.style.setProperty("font", `${weight} ${size}/${lh} ${family}`);
+			let vars = style.getPropertyValue("font-variation-settings");
+			if(vars) {
+				anchor.style.setProperty("font-variation-settings", vars);
+			}
 		}
 	}
 
@@ -162,14 +167,21 @@ class HeadingAnchors extends HTMLElement {
 	}
 
 	getContent() {
-		return this.getAttribute(HeadingAnchors.attributes.content) || "#";
+		if(this.hasAttribute(HeadingAnchors.attributes.content)) {
+			return this.getAttribute(HeadingAnchors.attributes.content);
+		}
+		return "#";
 	}
 
+	// Placeholder nests inside of heading
 	getPlaceholderElement() {
 		let ph = document.createElement("span");
 		ph.setAttribute("aria-hidden", true);
 		ph.classList.add(HeadingAnchors.classes.placeholder);
-		ph.textContent = this.getContent();
+		let content = this.getContent();
+		if(content) {
+			ph.textContent = content;
+		}
 
 		ph.addEventListener("mouseover", (e) => {
 			let placeholder = e.target.closest(`.${HeadingAnchors.classes.placeholder}`);
@@ -187,7 +199,7 @@ class HeadingAnchors extends HTMLElement {
 		anchor.classList.add(HeadingAnchors.classes.anchor);
 
 		let content = this.getContent();
-		anchor.innerHTML = `<span class="${HeadingAnchors.classes.srOnly}">${this.getAccessibleTextPrefix()}: ${heading.textContent}</span><span aria-hidden="true">${content}</span>`;
+		anchor.innerHTML = `<span class="${HeadingAnchors.classes.srOnly}">${this.getAccessibleTextPrefix()}: ${heading.textContent}</span>${content ? `<span aria-hidden="true">${content}</span>` : ""}`;
 
 		anchor.addEventListener("focus", e => {
 			let anchor = e.target.closest(`.${HeadingAnchors.classes.anchor}`);
